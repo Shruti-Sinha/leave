@@ -2,7 +2,7 @@ package leaveMgmtSystem.dbUtil;
 
 public class SQLQueriesSelect {
 	
-	public static final String SELECT="select emp_id from leave_mgmt_employee_info_master where emp_code=?";
+	public static final String SELECT_EMPLOYEE_CODE="select emp_id from leave_mgmt_employee_info_master where emp_code=?";
 	
 	public static final String SELECT_PROJECT_MASTER = "select * from  leave_mgmt_project_master";
 	public static final String SELECT_ACCOUNT_STATUS_MASTER = "select * from leave_mgmt_account_status_master";

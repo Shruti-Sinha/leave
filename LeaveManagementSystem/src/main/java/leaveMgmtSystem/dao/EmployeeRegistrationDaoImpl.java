@@ -143,7 +143,7 @@ public class EmployeeRegistrationDaoImpl implements EmployeeRegistraionDaoI {
 		try {
 			conObj.setAutoCommit(false);
 
-			pst=conObj.prepareStatement(SQLQueriesSelect.SELECT);
+			pst=conObj.prepareStatement(SQLQueriesSelect.SELECT_EMPLOYEE_CODE);
 			pst.setString(1, regFormBean.getEmpCode());
 			result=pst.executeQuery();
 			if (result.next()) {
@@ -160,12 +160,12 @@ public class EmployeeRegistrationDaoImpl implements EmployeeRegistraionDaoI {
 					regFormBean.setApproverId1(empId);
 					regFormBean.setApproverId2(empId);
 					System.out.println(">"+empId);
-					
 				}
 				else if(regFormBean.getTypeId()==203){
 					regFormBean.setApproverId1(empId);
 					System.out.println(empId+"+");
 				}
+				
 				System.out.println("App"+empId+" "+regFormBean.getApproverId1()+" "+	regFormBean.getApproverId2());
 			
 			pst = conObj
@@ -249,7 +249,7 @@ public class EmployeeRegistrationDaoImpl implements EmployeeRegistraionDaoI {
 			}
 			mgrIns=pst.executeUpdate();
 			
-			
+			System.out.println(">>>mgr"+mgrIns);
 			
 			if (updLogin == 0 || insLeaveCredited == 0) {
 
@@ -284,6 +284,7 @@ public class EmployeeRegistrationDaoImpl implements EmployeeRegistraionDaoI {
 			pstmt=conObj.prepareStatement(SQLQueriesSelect.SELECT_EMPLOYEE_LOGIN_PROFILE_MASTER_AWATING);
 			pstmt.setInt(1,StringConstants.AWAITING_ACCOUNT_ID );
 			result=pstmt.executeQuery();
+			System.out.println("hi");
 			Boolean b = result.next();
 			System.out.println(b);
 			if(b){
@@ -334,6 +335,7 @@ public class EmployeeRegistrationDaoImpl implements EmployeeRegistraionDaoI {
 			System.out.println(bool);
 			if(bool){
 				RegistrationFormBean regFbean=new RegistrationFormBean();
+				regFbean.setEmpId(result.getInt(1));
 				regFbean.setEmpCode(result.getString(2));
 				regFbean.setEmpFName(result.getString(3));
 				regFbean.setEmpMName(result.getString(4));
@@ -348,6 +350,8 @@ public class EmployeeRegistrationDaoImpl implements EmployeeRegistraionDaoI {
 				regFbean.setPwd(result.getString(14));
 				regFbean.setSecurityQuesId(result.getInt(17));
 				regFbean.setSecutityAns(result.getString(18));
+				regFbean.setAccountStatusId(result.getInt(19));
+
 				
 				
 

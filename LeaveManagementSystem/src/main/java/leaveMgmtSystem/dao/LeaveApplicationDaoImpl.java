@@ -11,6 +11,7 @@ import java.sql.Statement;
 import leaveMgmtSystem.dbUtil.DBConnection;
 import leaveMgmtSystem.dbUtil.SQLQueriesInsert;
 import leaveMgmtSystem.dbUtil.SQLQueriesSelect;
+import leaveMgmtSystem.exception.EmployeeNotFoundExceptions;
 import leaveMgmtSystem.formBeans.ApplyLeaveBean;
 import leaveMgmtSystem.utility.DateConversion;
 import leaveMgmtSystem.utility.StringConstants;
@@ -26,14 +27,15 @@ public class LeaveApplicationDaoImpl implements LeaveApplicationDaoI {
 
 	
 	@Override
-	public int applyLeave(ApplyLeaveBean applyLeaveBean,String empCode) {
+	public int applyLeave(ApplyLeaveBean applyLeaveBean,String empCode) throws EmployeeNotFoundExceptions {
 		// TODO Auto-generated method stub
 		conObj = (Connection) DBConnection.getDBConnection();
 		int empId=0,leaveId=0,empLeave=0,insertResult=0;
 		
 		try {
 			conObj.setAutoCommit(false);
-			pst=conObj.prepareStatement(SQLQueriesSelect.SELECT);
+			pst=conObj.prepareStatement(SQLQueriesSelect.SELECT_EMPLOYEE_CODE);
+			pst.setString(1, empCode);
 			ResultSet res=pst.executeQuery();
 			res=pst.executeQuery();
 			if (res.next()) {
@@ -61,6 +63,7 @@ public class LeaveApplicationDaoImpl implements LeaveApplicationDaoI {
 			pst.setString(8, applyLeaveBean.getTag());
 			
 			int result=pst.executeUpdate();
+			System.out.println(">>>>"+result);
 			res = pst.getGeneratedKeys();
 
 			if (res.next()) {
@@ -102,7 +105,7 @@ public class LeaveApplicationDaoImpl implements LeaveApplicationDaoI {
 		
 		
 		}catch(Exception e){
-			
+			throw new EmployeeNotFoundExceptions(e.toString());
 		}
 		return insertResult;
 	}
